@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "helpers.fullname" . }}-domains
+data:
+  domains.txt: {{ .Values.host }}
+  email: {{ .Values.email }}
+  secret: {{ template "helpers.fullname" . }}-tls
+  staging: "{{ .Values.staging }}"

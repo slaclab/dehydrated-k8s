@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ template "helpers.fullname" . }}-svc
+spec:
+  selector:
+    app: {{ template "helpers.fullname" . }}
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+

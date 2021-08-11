@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "helpers.fullname" . }}-wk-ingress
+spec:
+  rules:
+{{ if .Values.cluster_local_ingress }}  
+  - host: {{ template "helpers.fullname" . }}-wk-ingress.{{ .Values.cluster_local_ingress }}
+    http:
+      paths:
+      - path: /.well-known/acme-challenge
+        backend:
+          serviceName: {{ template "helpers.fullname" . }}-svc
+          servicePort: 80
+{{ end }}
+  - host: {{ .Values.host }}
+    http:
+      paths:
+      - path: /.well-known/acme-challenge
+        backend:
+          serviceName: {{ template "helpers.fullname" . }}-svc
+          servicePort: 80
+  tls:
+  - hosts:
+    - {{ .Values.host }}
+    secretName: {{ template "helpers.fullname" . }}-tls

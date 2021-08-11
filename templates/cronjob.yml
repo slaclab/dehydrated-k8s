@@ -1,0 +1,62 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ template "helpers.fullname" . }}
+  labels:
+    app: {{ template "helpers.fullname" . }}
+spec:
+  schedule: "@weekly"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: {{ template "helpers.fullname" . }}
+        spec:
+          containers:
+          - name: {{ template "helpers.fullname" . }}
+            image: {{ .Values.image }}
+            resources:
+              requests:
+                cpu: 1
+                memory: "256M"
+              limits:
+                cpu: 1
+                memory: "256M"
+            imagePullPolicy: Always
+            ports:
+            - containerPort: 8080
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                add:
+                - NET_BIND_SERVICE
+                drop:
+                - ALL
+              runAsUser: 101
+            volumeMounts:
+            - mountPath: /etc/dehydrated/accounts
+              name: {{ template "helpers.fullname" . }}-accounts-pvc
+            - mountPath: /etc/dehydrated/domains
+              name: {{ template "helpers.fullname" . }}-domains
+{{ if .Values.kubeconfig_token }}
+            - mountPath: /etc/dehydrated/kube
+              name: {{ template "helpers.fullname" . }}-kubeconfig
+{{ end }}
+          restartPolicy: Never
+          volumes:
+          - name: {{ template "helpers.fullname" . }}-accounts-pvc
+            persistentVolumeClaim:
+              claimName: {{ template "helpers.fullname" . }}-accounts-pvc
+          - configMap:
+              defaultMode: 292
+              name: {{ template "helpers.fullname" . }}-domains
+              optional: false
+            name: {{ template "helpers.fullname" . }}-domains
+{{ if .Values.kubeconfig_token }}
+          - name: {{ template "helpers.fullname" . }}-kubeconfig
+            secret:
+              defaultMode: 292
+              optional: false
+              secretName: {{ template "helpers.fullname" . }}-kubeconfig
+{{ end }}

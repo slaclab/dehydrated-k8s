@@ -1,0 +1,43 @@
+# Hostname used to construct issuers and URLs.
+# e.g. foobar.example.com
+host: "data.example.com"
+
+# Docker image to use.
+image: "brianv0/dehydrated-k8s-desc"
+
+# Email to use for let's encrypt
+# Set this to an email where you'd like to be notified of cert changes.
+email: "certs@example.com"
+
+# Set staging to 1 for testing, 0 for production
+staging: 0
+
+# Might need to set this if using NERSC.
+# This will add an extra entry to the ingress rule for the
+# cluster-local ingress, which might be necessary.
+# of the form: <namespace>.<cluster>.svc.spin.nersc.org
+# For example, at NERSC, the cluster is likely "production" and the
+# namespace is the namespace you intend to deploy the app.
+cluster_local_ingress: "data-web.production.svc.spin.nersc.org"
+
+# Token for kubeconfig
+# This assumes you have a token/secret that can be used by kubectl
+# Otherwise, you can optionally setup a Service Account/ClusterRole
+# When taken from Rancher, the token is the Bearer token that 
+# Rancher generates (should start with `token-abcd:`
+kubeconfig_token: ""
+
+# If kubeconfig_token is defined, you would set the additional
+# fields as appropriate for the kubeconfig file
+
+# cluster_url: The server url for a given cluster, 
+# (e.g. "https://rancher2.spin.nersc.gov/k8s/clusters/c-tmq7p" for production on spin)
+cluster_url: "https://rancher2.spin.nersc.gov/k8s/clusters/c-tmq7p"
+
+# FIXME: Verify templates/secret.yml and kubeconfig specification
+# double check the necessity of these
+# The name of the cluster
+cluster_name: "production"
+
+# Name of cluster user
+cluster_user: "production"
