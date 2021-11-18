@@ -35,24 +35,28 @@ spec:
                 - ALL
               runAsUser: 101
             volumeMounts:
-            - mountPath: /etc/dehydrated/accounts
-              name: {{ template "helpers.fullname" . }}-accounts-pvc
             - mountPath: /etc/dehydrated/domains
               name: {{ template "helpers.fullname" . }}-domains
+{{ if .Values.dehydrated_accounts_pvc }}
+            - mountPath: /etc/dehydrated/accounts
+              name: {{ template "helpers.fullname" . }}-accounts-pvc }}
+{{ end }}
 {{ if .Values.kubeconfig_token.enabled }}
             - mountPath: /etc/dehydrated/kube
               name: {{ template "helpers.fullname" . }}-kubeconfig
 {{ end }}
           restartPolicy: Never
           volumes:
-          - name: {{ template "helpers.fullname" . }}-accounts-pvc
-            persistentVolumeClaim:
-              claimName: {{ template "helpers.fullname" . }}-accounts-pvc
           - configMap:
               defaultMode: 292
               name: {{ template "helpers.fullname" . }}-domains
               optional: false
             name: {{ template "helpers.fullname" . }}-domains
+{{ if .Values.dehydrated_accounts_pvc }}
+          - name: {{ template "helpers.fullname" . }}-accounts-pvc
+            persistentVolumeClaim:
+              claimName: {{ .Values.dehydrated_accounts_pvc }}
+{{ end }}
 {{ if .Values.kubeconfig_token.enabled }}
           - name: {{ template "helpers.fullname" . }}-kubeconfig
             secret:

@@ -3,7 +3,7 @@
 host: "data.example.com"
 
 # Docker image to use.
-image: "brianv0/dehydrated-k8s-desc"
+image: "brianv0/dehydrated-k8s:0.1"
 
 # Email to use for let's encrypt
 # Set this to an email where you'd like to be notified of cert changes.
@@ -19,6 +19,12 @@ staging: 0
 # For example, at NERSC, the cluster is likely "production" and the
 # namespace is the namespace you intend to deploy the app.
 cluster_local_ingress: "data-web.production.svc.spin.nersc.org"
+
+# If you wish keep using the same private key and certs,
+# You should store them in a PVC.
+# There's not a huge issue if you don't, but private keys will
+# be regenerated weekly otherwise (the cronjob runs weekly)
+dehydrated_accounts_pvc: ""
 
 # Use a token-based kubeconfig
 # This will generate a kubeconfig from just a token for you.
