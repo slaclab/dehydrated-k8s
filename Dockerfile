@@ -36,5 +36,4 @@ RUN sed -i 's,listen       80;,listen       8080;,' /etc/nginx/conf.d/default.co
     && chown -R $UID:0 /etc/nginx \
     && chmod -R g+w /etc/nginx
 
-ADD entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
