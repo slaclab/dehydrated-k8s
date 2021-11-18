@@ -20,24 +20,32 @@ staging: 0
 # namespace is the namespace you intend to deploy the app.
 cluster_local_ingress: "data-web.production.svc.spin.nersc.org"
 
-# Token for kubeconfig
-# This assumes you have a token/secret that can be used by kubectl
-# Otherwise, you can optionally setup a Service Account/ClusterRole
-# When taken from Rancher, the token is the Bearer token that 
-# Rancher generates (should start with `token-abcd:`
-kubeconfig_token: ""
+# Use a token-based kubeconfig
+# This will generate a kubeconfig from just a token for you.
+kubeconfig_token:
 
-# If kubeconfig_token is defined, you would set the additional
-# fields as appropriate for the kubeconfig file
+  # enable or disable the use of a kubeconfig token
+  enabled: false
 
-# cluster_url: The server url for a given cluster, 
-# (e.g. "https://rancher2.spin.nersc.gov/k8s/clusters/c-tmq7p" for production on spin)
-cluster_url: "https://rancher2.spin.nersc.gov/k8s/clusters/c-tmq7p"
+  # Token for kubeconfig
+  # This assumes you have a token/secret that can be used by kubectl
+  # Otherwise, you can optionally setup a Service Account/ClusterRole
+  # When taken from Rancher, the token is the Bearer token that 
+  # Rancher generates (should start with `token-abcd:`
+  token: "token-xayx:asfda..."
 
-# FIXME: Verify templates/secret.yml and kubeconfig specification
-# double check the necessity of these
-# The name of the cluster
-cluster_name: "production"
+  # If kubeconfig_token is defined, you would set the additional
+  # fields as appropriate for the kubeconfig file
 
-# Name of cluster user
-cluster_user: "production"
+  # cluster_url: The server url for a given cluster, 
+  # (e.g. "https://rancher2.spin.nersc.gov/k8s/clusters/c-tmq7p" for production on spin)
+  cluster_url: "https://rancher2.spin.nersc.gov/k8s/clusters/c-tmq7p"
+
+  # FIXME: Verify templates/secret.yml and kubeconfig specification
+  # double check the necessity of these
+  # The name of the cluster
+  cluster_name: "production"
+
+  # Name of cluster user
+  cluster_user: "production"
+

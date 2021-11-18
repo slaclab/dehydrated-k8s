@@ -39,7 +39,7 @@ spec:
               name: {{ template "helpers.fullname" . }}-accounts-pvc
             - mountPath: /etc/dehydrated/domains
               name: {{ template "helpers.fullname" . }}-domains
-{{ if .Values.kubeconfig_token }}
+{{ if .Values.kubeconfig_token.enabled }}
             - mountPath: /etc/dehydrated/kube
               name: {{ template "helpers.fullname" . }}-kubeconfig
 {{ end }}
@@ -53,7 +53,7 @@ spec:
               name: {{ template "helpers.fullname" . }}-domains
               optional: false
             name: {{ template "helpers.fullname" . }}-domains
-{{ if .Values.kubeconfig_token }}
+{{ if .Values.kubeconfig_token.enabled }}
           - name: {{ template "helpers.fullname" . }}-kubeconfig
             secret:
               defaultMode: 292
