@@ -8,8 +8,8 @@ ARG GID=101
 
 ENV DEHYDRATED_VERSION=0.7.0
 
-# Support 1.17 and 1.19
-ENV K8S_VERSION=1.18.0
+# Support 1.21 and 1.23
+ENV K8S_VERSION=1.22.0
 
 # nginx user is 101
 ADD --chown=101:101 rootfs /
